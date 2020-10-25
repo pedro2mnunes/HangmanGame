@@ -1,3 +1,193 @@
 random->rand
 HasWon-> HasFinished
 GameAnswers->WordLibrary
+ThisAnswer->Solution
+GuessDisplay->PredictDisplay
+Modificado pelo Pedro
+
+
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace HangmanGame {
+    class Program {
+        static void Main (string[] args) {
+            //Instantiate random number generator using system-supplied value as seed.
+            var rand = new Random ();
+            //The string Input will store the user input.
+            string Input;
+
+            //The string Solution stores the solution word.
+            string Solution;
+
+            // The bool HasFinished stores the player status in the game. While false means that the player has not win/finished the game. 
+            bool HasFinished = false;
+
+            //Create one answer for the game from the list. Calculate its length.
+            //System.Collections.Generic(T): Represents a strongly typed list of objects that can be accessed by index. Provides methods to search, sort, and manipulate lists.
+            List<string> WordLibrary = new List<string> { "shirt", "dress", "glove", "short", "cap", "shoe" };
+
+            /*class System.Random
+            Represents a pseudo-random number generator, which is a device that produces a sequence of numbers that meet certain statistical requirements for randomness.
+            An object reference is required for the non-static field, method, or property 'Random.Next(int)' */
+            /* string string.ToUpper()
+            Returns a copy of this string converted to uppercase.*/
+            /* The variable Solution stores the chosen word */
+            Solution = WordLibrary[rand.Next (WordLibrary.Count)].ToUpper ();
+
+            int SolutionLength = Solution.Length;
+            Console.WriteLine ("Bem vindo ao jogo da Forca para treinar o seu inglês!!!");
+            Console.WriteLine ("Descobre a palavra usando apenas letras. Tens apenas 5 tentativas.");
+
+            string TellSolutionLength = "A palavra tem" + SolutionLength + " letras.";
+            Console.WriteLine (TellSolutionLength);
+
+            List<string> PredictDisplay = new List<string> (Solution.Length);
+            //Put the underscores so the player can see how many letters must gess
+            for (int i = 0; i < Solution.Length; i++) {
+                PredictDisplay.Add ("_");
+            }
+            while (HasFinished == false) {
+                foreach (string letter in PredictDisplay) {
+                    Console.Write (letter);
+                }
+
+                Console.WriteLine ();
+
+                //Read the user guess.
+                Input = Console.ReadLine ().ToUpper ();
+                if (Solution.Contains (Input) == true) // If the letter appears in the answer...
+                {
+                    Console.WriteLine ("Correcto!"); //...the player is informed.
+                    char guess = Input[0];
+
+                    // Pass each letter of the answer and check the player's answer against it.
+                    // If the letter and the guess are the same, change the guess display with the letter, so the player can see where he was correct.
+
+                    for (int i = 0; i < Solution.Length; i++) {
+                        if (Solution[i].Equals (guess) == true) //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                            PredictDisplay[i] = Input;
+                    }
+                }
+
+                // If there's no more gaps left in the guess display, the player won!
+                if (PredictDisplay.Contains ("_ ") == false) {
+                    HasFinished = true; // Tell the program they won.
+                } else {
+                    Console.WriteLine ("Incorrect!");
+                }
+
+                // When the player has won, we leave the game loop and enter the end game preparation.
+                // This is also a good place to put the code that tells the player they lost the game.
+                // Think about how you'd code such a system!
+                if (HasFinished == true) {
+                    Console.WriteLine ("YOU WON! Press any key to quit.");
+                    Console.ReadKey ();
+                    System.Environment.Exit (0);
+                }
+            }
+        }
+    }
+}
+
+
+
+OUTRO MODELO
+using System;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
+using Hangman.View;
+
+namespace Hangman
+{
+    public class Game
+    {
+        private List<char> wordToGuess;
+        private List<char> wordGuessed;
+        private List<char> incorrectGuesses;
+
+        private IVisualizer _gameVisualizer;
+        private bool _isRunning = false;
+        
+        /// <summary>
+        /// Creates a new Hangman game.
+        /// </summary>
+        /// <param name="visualizer">The Visualization Handler to use.</param>
+        /// <param name="word">The hangman word to use.</param>
+        public Game(IVisualizer visualizer, string word)
+        {
+            _gameVisualizer = visualizer;
+            wordToGuess = new List<char>();
+            wordGuessed = new List<char>();
+            incorrectGuesses = new List<char>();
+
+            // Setup the game with the new word.
+            wordToGuess.AddRange(word);
+            for (var x = 0; x < wordToGuess.Count; x++) 
+                wordGuessed.Add('_');
+            
+            _gameVisualizer.WelcomeScreen();
+            if (!_isRunning) // For GUI visualizer.
+                GameLoop();
+        }
+
+        /// <summary>
+        /// Runs and handles the hangman game.
+        /// </summary>
+        private void GameLoop()
+        {
+            _isRunning = true;
+            
+            while (wordGuessed.Contains('_')) { 
+                // Game screen.
+                Console.Clear();
+                _gameVisualizer.RefreshGameScreen(wordGuessed, incorrectGuesses);
+                
+                // Request the users next guess.
+                _gameVisualizer.RequestGuess();
+                var playerGuess = Console.ReadLine().ToUpper();
+                
+                if (ValidateGuess(playerGuess)) {
+                    var guess = Convert.ToChar(playerGuess);
+                    
+                    if (!wordGuessed.Contains(guess) && !incorrectGuesses.Contains(guess)) {
+                        if (wordToGuess.Contains(guess)) {
+                            // Handle a correct guess.
+                            for (var x = 0; x < wordToGuess.Count; x++) {
+                                if (wordToGuess[x] == guess)
+                                    wordGuessed[x] = guess;
+                            }
+                        } else {
+                            // Handle an incorrect guess.
+                            incorrectGuesses.Add(guess);
+                            if (incorrectGuesses.Count >= 6)
+                                _gameVisualizer.LoseScreen(wordToGuess);
+                        }
+                    } else {
+                        _gameVisualizer.AlreadyGuessed();
+                    }
+                } else {
+                    _gameVisualizer.InvalidGuess();
+                }
+            }
+
+            // The player must have won.
+            _gameVisualizer.WinScreen(wordToGuess, incorrectGuesses.Count);
+        }
+
+        /// <summary>
+        /// Validates whether or not the guess is valid.
+        /// </summary>
+        /// <param name="guess">The users guess</param>
+        /// <returns>True if the guess is valid, otherwise false.</returns>
+        private static bool ValidateGuess(string guess)
+        {
+            // Must be alphabetical, and a single character.
+            return (guess.Length == 1) && Regex.IsMatch(guess, @"^[a-zA-Z]+$");
+        }
+    }
+}

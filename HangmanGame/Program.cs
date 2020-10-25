@@ -4,47 +4,85 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HangmanGame {
-    class Program {
-        static void Main (string[] args) {
-            //Instantiate random number generator using system-supplied value as seed.
-            var rand = new Random ();
-            //The string Input will store the user input.
+namespace Hangman
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Random random = new Random(); //Make this first to ensure randomness!
+
+            string ThisAnswer;
             string Input;
 
-            //The string Solution stores the solution word.
-            string Solution;
+            bool HasWon = false;
 
-            // The bool HasFinished stores the player status in the game. While false means that the player has not win/finished the game. 
-            bool HasFinished = false;
+            // Make answers for the game to pick from, then choose one and get its length for the next part.
+            List<string> GameAnswers = new List<string> { "Apple", "Pear", "Banana", "Mango", "Apricot", "Plum" };
+            ThisAnswer = GameAnswers[random.Next(GameAnswers.Count)].ToUpper();
+            int length = ThisAnswer.Length;
+            // Let's welcome our player and let them know the rules, as well as give them a clue for our answer.
+            Console.WriteLine("Welcome to Hangman!");
+            Console.WriteLine("Discover the word in 5 attempts by guessing using letters.");
+            string TellLength = "This word has: " + length + " letters. Good luck!";
+            Console.WriteLine(TellLength);
 
-            //Create one answer for the game from the list. Calculate its length.
-            //System.Collections.Generic(T): Represents a strongly typed list of objects that can be accessed by index. Provides methods to search, sort, and manipulate lists.
-            List<string> WordLibrary = new List<string> { "shirt", "dress", "glove", "short", "cap", "shoe" };
+            List<string> GuessDisplay = new List<string>(ThisAnswer.Length);
 
-            /*class System.Random
-            Represents a pseudo-random number generator, which is a device that produces a sequence of numbers that meet certain statistical requirements for randomness.
-            An object reference is required for the non-static field, method, or property 'Random.Next(int)' */
-            /* string string.ToUpper()
-            Returns a copy of this string converted to uppercase.*/
-            /* The variable Solution stores the chosen word */
-            Solution = WordLibrary[rand.Next (WordLibrary.Count)].ToUpper ();
-
-            int SolutionLength = Solution.Length;
-            Console.WriteLine ("Bem vindo ao jogo da Forca para treinar o seu inglês!!!");
-            Console.WriteLine ("Descobre a palavra usando apenas letras. Tens apenas 5 tentativas.");
-
-            string TellSolutionLength = "A palavra tem" + SolutionLength + " letras.";
-            Console.WriteLine (TellSolutionLength);
-
-            List<string> PredictDisplay = new List<string> (Solution.Length);
-            for (int i = 0; i < Solution.Length; i++) {
-                PredictDisplay.Add ("_");
+            // Set up the underscores so we can show the player how many letters they need to guess.
+            for (int i = 0; i < ThisAnswer.Length; i++)
+            {
+                GuessDisplay.Add("_ ");
             }
-            while (HasFinished == false) {
-                foreach (string letter in PredictDisplay) {
-                    
+
+            while (HasWon == false)
+            {
+                // For each letter left to guess, show it to the player so they can see their progress.
+                foreach (string letter in GuessDisplay)
+                {
+                    Console.Write(letter);
                 }
+
+                Console.WriteLine();
+
+                // Get the user's guess.
+                Input = Console.ReadLine().ToUpper();
+
+                if (ThisAnswer.Contains(Input) == true) // If the letter appears in the answer, they're correct!
+                {
+                    Console.WriteLine("Correct!"); // Let the player know how clever they are.
+                    char guess = Input[0];
+
+                    // Now we'll go through each letter of the answer and check our player's answer against it.
+                    // If the guess and the letter matches, replace the guess display with the letter, so the player can see where they got it right.
+
+                    for (int i = 0; i < ThisAnswer.Length; i++)
+                    {
+                        if (ThisAnswer[i].Equals(guess) == true)
+                        {
+                            GuessDisplay[i] = Input;
+                        }
+                    }
+
+                    // If there's no more gaps left in the guess display, the player won!
+                    if (GuessDisplay.Contains("_ ") == false)
+                    {
+                        HasWon = true; // Tell the program they won.
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Incorrect!");
+                }
+            }
+            // When the player has won, we leave the game loop and enter the end game preparation.
+            // This is also a good place to put the code that tells the player they lost the game.
+            // Think about how you'd code such a system!
+            if (HasWon == true)
+            {
+                Console.WriteLine("YOU WON! Press any key to quit.");
+                Console.ReadKey();
+                System.Environment.Exit(0);
             }
         }
     }
