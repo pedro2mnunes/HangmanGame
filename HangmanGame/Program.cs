@@ -26,12 +26,26 @@ namespace HangmanGame {
             Represents a pseudo-random number generator, which is a device that produces a sequence of numbers that meet certain statistical requirements for randomness.
             An object reference is required for the non-static field, method, or property 'Random.Next(int)' */
             /* string string.ToUpper()
-            Returns a copy of this string converted to uppercase.
-            Returns:The uppercase equivalent of the current string.*/
-            Solution = WordLibrary[Random.Next (WordLibrary.Count)].ToUpper ();
+            Returns a copy of this string converted to uppercase.*/
+            /* The variable Solution stores the chosen word */
+            Solution = WordLibrary[rand.Next (WordLibrary.Count)].ToUpper ();
 
             int SolutionLength = Solution.Length;
+            Console.WriteLine ("Bem vindo ao jogo da Forca para treinar o seu inglês!!!");
+            Console.WriteLine ("Descobre a palavra usando apenas letras. Tens apenas 5 tentativas.");
 
+            string TellSolutionLength = "A palavra tem" + SolutionLength + " letras.";
+            Console.WriteLine (TellSolutionLength);
+
+            List<string> PredictDisplay = new List<string> (Solution.Length);
+            for (int i = 0; i < Solution.Length; i++) {
+                PredictDisplay.Add ("_");
+            }
+            while (HasFinished == false) {
+                foreach (string letter in PredictDisplay) {
+                    
+                }
+            }
         }
     }
 }

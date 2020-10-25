@@ -1,0 +1,13 @@
+C:\Users\pedro\OneDrive\UPSKILL-LIVE\DisciplinaAlgoritmos\HangmanGame\HangmanGame\bin\Debug\netcoreapp3.1\HangmanGame.exe
+C:\Users\pedro\OneDrive\UPSKILL-LIVE\DisciplinaAlgoritmos\HangmanGame\HangmanGame\bin\Debug\netcoreapp3.1\HangmanGame.deps.json
+C:\Users\pedro\OneDrive\UPSKILL-LIVE\DisciplinaAlgoritmos\HangmanGame\HangmanGame\bin\Debug\netcoreapp3.1\HangmanGame.runtimeconfig.json
+C:\Users\pedro\OneDrive\UPSKILL-LIVE\DisciplinaAlgoritmos\HangmanGame\HangmanGame\bin\Debug\netcoreapp3.1\HangmanGame.runtimeconfig.dev.json
+C:\Users\pedro\OneDrive\UPSKILL-LIVE\DisciplinaAlgoritmos\HangmanGame\HangmanGame\bin\Debug\netcoreapp3.1\HangmanGame.dll
+C:\Users\pedro\OneDrive\UPSKILL-LIVE\DisciplinaAlgoritmos\HangmanGame\HangmanGame\bin\Debug\netcoreapp3.1\HangmanGame.pdb
+C:\Users\pedro\OneDrive\UPSKILL-LIVE\DisciplinaAlgoritmos\HangmanGame\HangmanGame\obj\Debug\netcoreapp3.1\HangmanGame.csprojAssemblyReference.cache
+C:\Users\pedro\OneDrive\UPSKILL-LIVE\DisciplinaAlgoritmos\HangmanGame\HangmanGame\obj\Debug\netcoreapp3.1\HangmanGame.AssemblyInfoInputs.cache
+C:\Users\pedro\OneDrive\UPSKILL-LIVE\DisciplinaAlgoritmos\HangmanGame\HangmanGame\obj\Debug\netcoreapp3.1\HangmanGame.AssemblyInfo.cs
+C:\Users\pedro\OneDrive\UPSKILL-LIVE\DisciplinaAlgoritmos\HangmanGame\HangmanGame\obj\Debug\netcoreapp3.1\HangmanGame.csproj.CoreCompileInputs.cache
+C:\Users\pedro\OneDrive\UPSKILL-LIVE\DisciplinaAlgoritmos\HangmanGame\HangmanGame\obj\Debug\netcoreapp3.1\HangmanGame.dll
+C:\Users\pedro\OneDrive\UPSKILL-LIVE\DisciplinaAlgoritmos\HangmanGame\HangmanGame\obj\Debug\netcoreapp3.1\HangmanGame.pdb
+C:\Users\pedro\OneDrive\UPSKILL-LIVE\DisciplinaAlgoritmos\HangmanGame\HangmanGame\obj\Debug\netcoreapp3.1\HangmanGame.genruntimeconfig.cache
