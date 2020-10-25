@@ -1,0 +1,3 @@
+random->rand
+HasWon-> HasFinished
+GameAnswers->WordLibrary
